@@ -22,22 +22,30 @@ public class ObstacleSpawner : MonoBehaviour
     private void Start()
     {
         _entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
-        _blobAssetStore = new BlobAssetStore();
+        int numOfDefaultEntites = 10;
 
-        GameObjectConversionSettings settings = GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, _blobAssetStore);
-
-        foreach(var obstacle in _obstacles)
+        if (_entityManager.GetAllEntities().Length < numOfDefaultEntites) // if obstacles don't exist
         {
-            _obstacleEntities.Add(GameObjectConversionUtility.ConvertGameObjectHierarchy(obstacle, settings));
-        }
-
-
-        if (_entityManager.GetAllEntities().Length < 10) // if obstacles don't exist
-        {
+            SetSettings();
             SpawnObstacles();
         }
 
-        Destroy(gameObject);
+        else
+        {
+            MoveExistingObstacles();
+        }
+    }
+
+
+    private void SetSettings()
+    {
+        _blobAssetStore = new BlobAssetStore();
+        GameObjectConversionSettings settings = GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, _blobAssetStore);
+
+        foreach (var obstacle in _obstacles)
+        {
+            _obstacleEntities.Add(GameObjectConversionUtility.ConvertGameObjectHierarchy(obstacle, settings));
+        }
     }
 
 
@@ -45,7 +53,7 @@ public class ObstacleSpawner : MonoBehaviour
     {
         for (int i = 0; i < _numOfObstacles; ++i)
         {
-            Entity newObstacle = _entityManager.Instantiate(_obstacleEntities[Random.Range(0 , _obstacleEntities.Count)]);
+            Entity newObstacle = _entityManager.Instantiate(_obstacleEntities[Random.Range(0, _obstacleEntities.Count)]);
             _entityManager.SetComponentData(newObstacle, new Translation { Value = GetObstacleOffset(i) });
         }
     }
@@ -62,9 +70,25 @@ public class ObstacleSpawner : MonoBehaviour
     }
 
 
+    private void MoveExistingObstacles()
+    {
+        var obstacles = _entityManager.CreateEntityQuery(typeof(ObstacleComponent)).ToEntityArray(Allocator.Persistent);
+
+        foreach (var obstacle in obstacles)
+        {
+            var position = _entityManager.GetComponentData<Translation>(obstacle).Value;
+            position = new float3(position.x, position.y, position.z + 66);
+
+            _entityManager.SetComponentData(obstacle, new Translation { Value = position });
+        }
+
+        obstacles.Dispose();
+    }
+
+
     private void OnDestroy()
     {
-        _blobAssetStore.Dispose();
+        _blobAssetStore?.Dispose();
     }
 }
 

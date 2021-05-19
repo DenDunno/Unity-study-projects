@@ -1,7 +1,8 @@
 ﻿using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
-using Unity.Physics;
+using Random = UnityEngine.Random;
+
 
 public class ObstacleSystem : ComponentSystem
 {
@@ -37,7 +38,7 @@ public class ObstacleSystem : ComponentSystem
     private void MoveObstacle(ref Translation translation , ref ObstacleComponent obstacle)
     {
         float z_position = 0f;
-        float x_position = UnityEngine.Random.Range(-1, 2) * obstacle.SideEdgeSpawn;
+        float x_position = Random.Range(-1, 2) * obstacle.SideEdgeSpawn;
 
         Entities.ForEach((ref ObstacleComponent obstacle, ref Translation translation) =>
         {

@@ -64,6 +64,7 @@ class CollisionHandler : MonoBehaviour
 
     private void OnDestroy()
     {
-        _collisionSystem.SpaceShipCollided -= OnSpaceShipCollided;
+        if (_collisionSystem != null)
+            _collisionSystem.SpaceShipCollided -= OnSpaceShipCollided;
     }
 }
