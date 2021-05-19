@@ -27,8 +27,30 @@ class CollisionHandler : MonoBehaviour
     private async void OnSpaceShipCollided(object sender , EventArgs e)
     {
         StopRoad();
+        StopEffects();
         ExplodeSpaceShip();
         await WaitAndShowPanel();
+    }
+
+
+    private void StopEffects()
+    {
+        var effects = FindObjectsOfType<ParticleSystem>();
+
+        foreach (var effect in effects)
+        {
+            effect.Stop();
+        }
+    }
+
+
+    private void StopRoad()
+    {
+        var road = _entityManager.CreateEntityQuery(typeof(RoadComponent)).ToEntityArray(Allocator.Persistent);
+
+        _entityManager.DestroyEntity(road[0]);
+
+        road.Dispose();
     }
 
 
@@ -44,16 +66,6 @@ class CollisionHandler : MonoBehaviour
     }
 
 
-    private void StopRoad()
-    {
-        var road = _entityManager.CreateEntityQuery(typeof(RoadComponent)).ToEntityArray(Allocator.Persistent);
-
-        _entityManager.DestroyEntity(road[0]);
-
-        road.Dispose();
-    }
-
-
     private async UniTask WaitAndShowPanel()
     {
         float waitTime = 2f;
@@ -65,6 +77,8 @@ class CollisionHandler : MonoBehaviour
     private void OnDestroy()
     {
         if (_collisionSystem != null)
+        {
             _collisionSystem.SpaceShipCollided -= OnSpaceShipCollided;
+        }
     }
 }
