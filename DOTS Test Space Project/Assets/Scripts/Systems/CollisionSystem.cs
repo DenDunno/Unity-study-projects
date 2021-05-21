@@ -29,8 +29,8 @@ public class CollisionSystem : JobComponentSystem
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
-        NativeQueue<CollisionEvent>.ParallelWriter eventQueueParallel = _eventQueue.AsParallelWriter();
-        float3 spaceShipPosition = float3.zero;
+        var eventQueueParallel = _eventQueue.AsParallelWriter();
+        var spaceShipPosition = float3.zero;
 
         Entities.ForEach((ref SpaceShipComponent tag, ref Translation translation) =>
         {

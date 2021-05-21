@@ -11,8 +11,8 @@ public class ObstacleSystem : ComponentSystem
 
     protected override void OnUpdate()
     {
-        float deltaTime = Time.DeltaTime;
-        float roadSpeed = 0;
+        var deltaTime = Time.DeltaTime;
+        var roadSpeed = 0f;
 
         Entities.ForEach((ref RoadComponent road) =>
         {
@@ -22,7 +22,7 @@ public class ObstacleSystem : ComponentSystem
 
         Entities.ForEach((ref ObstacleComponent obstacle, ref Translation translation, ref Rotation rotation) =>
         {
-            float3 offset = obstacle.RotationAngles * obstacle.RotationSpeed * deltaTime;
+            var offset = obstacle.RotationAngles * obstacle.RotationSpeed * deltaTime;
             rotation.Value = math.mul(rotation.Value, quaternion.Euler(offset));
 
             translation.Value += obstacle.Direction * roadSpeed * obstacle.MovementSpeed * deltaTime;
@@ -37,8 +37,8 @@ public class ObstacleSystem : ComponentSystem
 
     private void MoveObstacle(ref Translation translation , ref ObstacleComponent obstacle)
     {
-        float z_position = 0f;
-        float x_position = Random.Range(-1, 2) * obstacle.SideEdgeSpawn;
+        var z_position = 0f;
+        var x_position = Random.Range(-1, 2) * obstacle.SideEdgeSpawn;
 
         Entities.ForEach((ref ObstacleComponent obstacle, ref Translation translation) =>
         {

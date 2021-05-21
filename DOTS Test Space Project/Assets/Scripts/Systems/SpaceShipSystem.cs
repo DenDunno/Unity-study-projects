@@ -8,15 +8,15 @@ public class SpaceShipMovement : ComponentSystem
 {
     protected override void OnUpdate()
     {
-        float deltaTime = Time.DeltaTime;
-        int sgn = (int)Input.GetAxisRaw("Horizontal");
+        var deltaTime = Time.DeltaTime;
+        var sgn = (int)Input.GetAxisRaw("Horizontal");
 
         Entities.ForEach((ref SpaceShipComponent spaceShip, ref Translation translation , ref Rotation rotation) =>
         {
-            float3 direction = Vector3.right * sgn;
-            quaternion newRotation = quaternion.Euler(0 , 0 , spaceShip.RotationAngle * sgn);
+            var direction = (float3)Vector3.right * sgn;
+            var newRotation = quaternion.Euler(0 , 0 , spaceShip.RotationAngle * sgn);
 
-            float3 newPosition = translation.Value + direction * spaceShip.SideSpeed * deltaTime;
+            var newPosition = translation.Value + direction * spaceShip.SideSpeed * deltaTime;
 
             if (Mathf.Abs(newPosition.x) <= spaceShip.MaxSideOffset)
             {

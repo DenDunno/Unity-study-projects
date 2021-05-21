@@ -24,7 +24,7 @@ public class RestartTextSystem : ComponentSystem
                 for (int j = 0; j < 4; ++j)
                 {
                     var orig = verts[charInfo.vertexIndex + j];
-                    float offset = Mathf.Sin((float)Time.ElapsedTime * 2f + orig.x * 0.01f) * 0.1f;
+                    var offset = Mathf.Sin((float)Time.ElapsedTime * 2f + orig.x * 0.01f) * 0.1f;
 
                     verts[charInfo.vertexIndex + j] = orig + new Vector3(0, offset, 0);
                 }

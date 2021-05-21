@@ -9,7 +9,7 @@ public class AccelerationEffectSystem : ComponentSystem
 
     protected override void OnUpdate()
     {
-        int sgn = (int)Input.GetAxisRaw("Vertical");
+        var sgn = (int)Input.GetAxisRaw("Vertical");
 
         Entities.ForEach((AccelerationEffectComponent effectComponent)=>
         {

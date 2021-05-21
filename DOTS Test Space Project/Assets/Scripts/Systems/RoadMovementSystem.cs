@@ -27,16 +27,18 @@ public class RoadMovementSystem : ComponentSystem
 
     private void MoveTexture(MeshRenderer renderer , ref RoadComponent road)
     {
-        float deltaTime = Time.DeltaTime;
+        var deltaTime = Time.DeltaTime;
         road.Speed += road.Acceleration * deltaTime;
 
-        Material material = renderer.sharedMaterial;
+        var material = renderer.sharedMaterial;
 
-        float offset = material.GetTextureOffset("_MainTex").y;
+        var offset = material.GetTextureOffset("_MainTex").y;
         offset -= road.Speed * deltaTime;
 
         if (offset <= -1)
+        {
             offset = 0;
+        }
 
         material.SetTextureOffset("_MainTex", new Vector2(0, offset));
     }

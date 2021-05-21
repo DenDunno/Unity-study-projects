@@ -19,11 +19,13 @@ public class MovingObstacleSystem : ComponentSystem
             obstacle.Time += Time.DeltaTime;
 
             if (obstacle.Time >= obstacle.Period)
+            {
                 obstacle.Time = 0;
+            }
 
             obstacle.Lerp = (float)(1 - Mathf.Cos(obstacle.MaxSpeed * obstacle.Time)) / 2;
 
-            float2 offset = math.lerp(obstacle.Start, obstacle.Target, obstacle.Lerp);
+            var offset = math.lerp(obstacle.Start, obstacle.Target, obstacle.Lerp);
 
             translation.Value = new float3(offset.x, offset.y, translation.Value.z);
         });

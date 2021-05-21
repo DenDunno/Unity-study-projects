@@ -68,7 +68,7 @@ class CollisionHandler : MonoBehaviour
 
     private async UniTask WaitAndShowPanel()
     {
-        float waitTime = 2f;
+        var waitTime = 2f;
         await UniTask.Delay(TimeSpan.FromSeconds(waitTime), ignoreTimeScale: false);
         _UIManager.ShowGameOverPanel();
     }

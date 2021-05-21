@@ -7,15 +7,15 @@ public class CameraFollowingSystem : ComponentSystem
 {
     protected override void OnUpdate()
     {
-        int sgn = (int)Input.GetAxisRaw("Vertical") + 1;
+        var sgn = (int)Input.GetAxisRaw("Vertical") + 1;
 
         Entities.ForEach((CameraFollowingComponent following , ref Translation translation) =>
         {
-            float deltaTime = Time.DeltaTime;
-            float3 spaceShipPosition = translation.Value;
+            var deltaTime = Time.DeltaTime;
+            var spaceShipPosition = translation.Value;
 
-            float3 currentPosition = following.Camera.transform.position;
-            float3 newPosition = spaceShipPosition + following.CameraPositions[sgn];
+            var currentPosition = following.Camera.transform.position;
+            var newPosition = spaceShipPosition + following.CameraPositions[sgn];
             
             following.Camera.transform.position = math.lerp(currentPosition, newPosition, following.FollowingSpeed * deltaTime);
         });

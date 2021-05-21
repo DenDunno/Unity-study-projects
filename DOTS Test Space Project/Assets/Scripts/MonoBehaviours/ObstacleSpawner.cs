@@ -22,7 +22,7 @@ public class ObstacleSpawner : MonoBehaviour
     private void Start()
     {
         _entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
-        int numOfDefaultEntites = 10;
+        var numOfDefaultEntites = 10;
 
         if (_entityManager.GetAllEntities().Length < numOfDefaultEntites) // if obstacles don't exist
         {
@@ -51,7 +51,7 @@ public class ObstacleSpawner : MonoBehaviour
 
     private void SpawnObstacles()
     {
-        for (int i = 0; i < _numOfObstacles; ++i)
+        for (var i = 0; i < _numOfObstacles; ++i)
         {
             Entity newObstacle = _entityManager.Instantiate(_obstacleEntities[Random.Range(0, _obstacleEntities.Count)]);
             _entityManager.SetComponentData(newObstacle, new Translation { Value = GetObstacleOffset(i) });
@@ -61,10 +61,10 @@ public class ObstacleSpawner : MonoBehaviour
 
     private float3 GetObstacleOffset(int depthIndex)
     {
-        int sgn = Random.Range(-1, 2);
+        var sgn = Random.Range(-1, 2);
 
-        float x_offset = sgn * _obstacleXOffset;
-        float z_offset = depthIndex * _distanceBetweenObstacles;
+        var x_offset = sgn * _obstacleXOffset;
+        var z_offset = depthIndex * _distanceBetweenObstacles;
 
         return new float3(x_offset, 1, z_offset);
     }
